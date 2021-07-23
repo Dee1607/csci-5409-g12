@@ -20,7 +20,6 @@ app.get("/", (req, res) => {
   });
 });
 
-
 app.set('port', process.env.PORT || 8080);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -33,7 +32,6 @@ app.use(session({
   saveUninitialized: true,
   cookie: { maxAge: 60000, token: "" }
 }))
-
 
 // app.post('/register', user.register);
 // app.post('/login', user.login);
