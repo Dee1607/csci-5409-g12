@@ -15,7 +15,7 @@ export default function App() {
             <Switch>
                 <Route exact path="/">
                     <AppLayout>
-                        <Home />
+                        <Login />
                     </AppLayout>
                 </Route>
                 <Route path="/login">
@@ -28,9 +28,9 @@ export default function App() {
                         <Register />
                     </AppLayout>
                 </Route>
-                <Route path="/dashboard">
+                <Route path="/home">
                     <DashboardLayout>
-                        <Dashboard />
+                        <Home />
                     </DashboardLayout>
                 </Route>
                 <Route path="/">

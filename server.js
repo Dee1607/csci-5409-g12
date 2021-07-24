@@ -36,6 +36,7 @@ app.use(session({
 // app.post('/register', user.register);
 // app.post('/login', user.login);
 app.post('/register', user.register);
+app.post('/create', user.create);
 
 app.listen(8080, async () => {
   try {

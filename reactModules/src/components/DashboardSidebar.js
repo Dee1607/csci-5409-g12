@@ -19,37 +19,17 @@ export default function Sidebar(props) {
             <Collapse in={ open }>
                 <Drawer.Overflow>
                     <Drawer.ToC>
-                        <Drawer.Item href="/dashboard">
-                            <span className={location.pathname === "/dashboard" ? 'nav-item-active' : ''}>Dashboard</span>
-                        </Drawer.Item>
+                        
 
                         <Drawer.Nav>
-                            <Drawer.Item href="/clients">
-                                <span className={location.pathname === "/clients" ? 'nav-item-active' : ''}>Clients</span>
+                            <Drawer.Item href="/home">
+                                <span className={location.pathname === "/home" ? 'nav-item-active' : ''}>Create Videos</span>
                             </Drawer.Item>
-                            <Drawer.Item  href="/projects">
-                                <span className={location.pathname === "/projects" ? "nav-item-active" : ''}>Projects</span>
+                            <Drawer.Item  href="/history">
+                                <span className={location.pathname === "/history" ? "nav-item-active" : ''}>History</span>
                             </Drawer.Item>
-                            <Drawer.Item href="/timelogs">
-                                <span className={location.pathname === "/timelogs" ? 'nav-item-active' : ''}>Time Logs</span>
-                            </Drawer.Item>
-                            <Drawer.Item href="/invoicemanagement">
-                                <span className={location.pathname === "/invoicemanagement" ? 'nav-item-active' : ''}>Invoices</span>
-                            </Drawer.Item>
-                            <Drawer.Item href="/invoice-generation">
-                                <span className={location.pathname === "/invoice-generation" ? 'nav-item-active' : ''}>Invoice Generation</span>
-                            </Drawer.Item>
-                            <Drawer.Item href="/testimonials">
-                                <span className={location.pathname === "/testimonials" ? 'nav-item-active' : ''}>Testimonials</span>
-                            </Drawer.Item>
-
-                            <hr className="horizontal-break"/>
-
-                            <Drawer.Item href="/todolist">
-                                <span className={location.pathname === "/todolist" ? 'nav-item-active' : ''}>ToDo</span>
-                            </Drawer.Item>
-                            <Drawer.Item href="/calendar">
-                                <span className={location.pathname === "/calendar" ? 'nav-item-active' : ''}>Calendar</span>
+                            <Drawer.Item href="/credits">
+                                <span className={location.pathname === "/credits" ? 'nav-item-active' : ''}>Add Credits</span>
                             </Drawer.Item>
                         </Drawer.Nav>
                     </Drawer.ToC>

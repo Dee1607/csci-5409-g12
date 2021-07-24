@@ -1,3 +1,5 @@
+const uploadToS3 = require('../../uploadToS3')
+
 exports.register = function (request, response) {
     message = '';
     let data = request.body;
@@ -30,16 +32,6 @@ exports.login = function (request, response) {
     })
 }
 
-// exports.fetchLiveUsers = function (request, response) {
-//     let data = request.body
-//     message = '';
-//     let sqlCommand = "Select * from userState INNER JOIN userDetails ON userState.userId = userDetails.userId;"
-//     let query = db.query(sqlCommand, function(error, result) {
-//         return response.status(200).json({result: result})
-//     })
-// }
-
-// exports.logout = function (request, response) {
-//     request.session.cookie.token = '';
-//     return response.status(200).json()
-// }
+exports.create = function(request, response) {
+    let data = request.body;
+}
