@@ -21,8 +21,18 @@ app.get("/", (req, res) => {
 });
 
 app.set('port', process.env.PORT || 8080);
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+var jsonParser = bodyParser.json({limit:1024*1024*10, type:'application/json'}); 
+var urlencodedParser = bodyParser.urlencoded({ extended:true,limit:1024*1024*10,type:'application/x-www-form-urlencoded' });
+app.use(jsonParser);
+app.use(urlencodedParser);
+
+// app.use(bodyParser.urlencoded({
+//   limit: '50mb',
+//   parameterLimit: 100000,
+//   extended: true 
+// }));
+// app.use(bodyParser.json());
+
 app.use(express.static('public'))
 app.use(cors())
 
