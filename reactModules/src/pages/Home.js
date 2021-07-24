@@ -5,6 +5,7 @@ import "../styles/button_style.scss";
 import "../styles/Home.scss";
 import { withRouter } from "react-router";
 import axios from "axios";
+import Button from 'react-bootstrap/Button'
 export class Home extends Component {
 
     constructor(props) {
