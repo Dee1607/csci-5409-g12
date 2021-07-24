@@ -34,4 +34,5 @@ exports.login = function (request, response) {
 
 exports.create = function(request, response) {
     let data = request.body;
+    console.log(data)
 }
