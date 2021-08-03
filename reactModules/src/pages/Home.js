@@ -39,7 +39,7 @@ export class Home extends Component {
       uploadToS3 = (event) => {
           event.preventDefault();
           console.log(this.state.pictures)
-          axios.post('http://localhost:8000/create', this.state.pictures).then(response => {
+          axios.post('http://localhost:8080/create', this.state.pictures).then(response => {
               console.log(response)
           })
       }

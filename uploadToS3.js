@@ -7,10 +7,10 @@ const s3 = new AWS.S3();
 const uploadFiles = async () => {
 
 }
-const imageUpload = async (files) => {
+exports.imageUpload = async function(files) {
         //listing all files using forEach
-        console.log(files)
-        files.forEach(function (file) {
+        var userId=0;
+        files.forEach((file, index) => {
             
             // Ensure that you POST a base64 data to your server.
             // Let's assume the variable "base64" is one.
@@ -21,19 +21,20 @@ const imageUpload = async (files) => {
             console.log(type)
             
             // Do whatever you want to do with the file
-            console.log(file);
+
             var param = {
-                Bucket: 'firstbucketb00858613',
+                Bucket: 'fb00858613',
                 Key: 'User1/'
             };
-            const userId=0;
+            
             userId = userId+1;
+         
             s3.getObject(param,function(err, data) { 
                 if(err){
-                    console.log("Eroror exists",err)
+                    console.log(userId)
                     const params = {
-                        Bucket: 'firstbucketb00858613',
-                        Key:`${userId}.${type}`,
+                        Bucket: 'fb00858613',
+                        Key:`${index + 1}.${type}`,
                         Body: base64File,
                         ACL: 'public-read',
                         ContentEncoding: 'base64',
@@ -43,16 +44,18 @@ const imageUpload = async (files) => {
                     return new Promise((resolve, reject)=>{
                         s3.putObject(params, (err,results)=>{
                             if(err) reject (err);
-                            else resolve(results);
+                            else {
+                                console.log("upload",userId)
+                                resolve(results)};
                         });
                     });
                 }
                 else if (data){
-                    console.log("Find", data)
-
-                    const params = {
-                        Bucket: 'firstbucketb00858613',
-                        Key:`${userId}.${type}`,
+         
+                    console.log("upload",userId)
+                        const params = {
+                        Bucket: 'fb00858613',
+                        Key:`${index + 1}.${type}`,
                         Body: base64File,
                         ACL: 'public-read',
                         ContentEncoding: 'base64',
@@ -62,7 +65,7 @@ const imageUpload = async (files) => {
                     return new Promise((resolve, reject)=>{
                         s3.putObject(params, (err,results)=>{
                             if(err) reject (err);
-                            else resolve(results);
+                            else {console.log("upload",index),resolve(results);}
                         });
                     });
                 }
@@ -74,4 +77,3 @@ const imageUpload = async (files) => {
     });
  
 };
-module.exports = imageUpload;
