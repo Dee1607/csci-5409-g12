@@ -47,9 +47,41 @@ export class Home extends Component {
         let postData = {}
         postData['images'] = this.state.pictures;
         postData['audio'] = this.state.audio;
-        axios.post('http://localhost:8080/create', postData).then(response => {
-            console.log(response)
-        })
+
+        const URL = "https://g56ejolm77.execute-api.us-east-1.amazonaws.com/default/uploadtos3?username=Deep";
+        axios({
+            method: 'post',
+            url: URL,
+            data: postData,
+            headers: { 'Content-Type': 'application/json' },
+          })
+            .then((response) => {
+              console.log(response);
+            //   let responseObj = response.data.output;
+               alert("Successful..")
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        // axios.post(URL, JSON.stringify(postData)).then(response => {
+
+            // if(response.status == 200){
+            //     // console.log(response.data.password)
+            //         alert("Successful..")
+            //         // localStorage.setItem('user', response.data.username);
+            //         // history.push("/home",email);
+            //     // else if(response.data == 'error'){
+            //     //     alert("User does not exist!")
+            //     // }
+            //     // else{
+            //     //     alert("Invalid Password")
+            //     // }
+            // }
+        // })
+
+        // axios.post('http://localhost:8080/create', postData).then(response => {
+        //     console.log(response)
+        // })
     }
 
     render() {

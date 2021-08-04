@@ -2,6 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import { Redirect, useHistory } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
+import axios from 'axios';
 
 export default function Login(){
 
@@ -9,14 +10,27 @@ export default function Login(){
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [user, setUser] = useState();
 
     const handleSubmit = async e => {
         e.preventDefault();
+        const URL = "https://g0q3skkmei.execute-api.us-east-1.amazonaws.com/default/getuserpassword?username="+email;
+        axios.post(URL).then(response => {
 
-        if(email === "admin@gmail.com" && password === "admin@123"){
-            history.push("/dashboard",email);
-        }
+            if(response.status == 200){
+                console.log(response.data.password)
+                if(response.data.upassword == password){
+                    alert("Login Successful..")
+                    localStorage.setItem('user', response.data.username);
+                    history.push("/home",email);
+                }
+                else if(response.data == 'error'){
+                    alert("User does not exist!")
+                }
+                else{
+                    alert("Invalid Password")
+                }
+            }
+        })
       };
 
     return (

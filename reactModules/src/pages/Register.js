@@ -2,8 +2,10 @@ import React from 'react';
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Button, Form } from 'react-bootstrap';
+import axios from 'axios';
 
 export default function Register(){
+    // const bcrypt = require('bcrypt');
 
     let history = useHistory();
 
@@ -104,10 +106,20 @@ export default function Register(){
             }
         }
 
-
+        
         if(valid === true){
-            alert("Registration Successful!!");
-            history.push("/login");
+            // const salt = "$2b$10$wWcWzH8u0Kiol1l.1yLjmO";
+            // let encryptedPassword = bcrypt.hashSync(registrationInfo.password, salt);
+            const URL = "https://c5sg6b51g0.execute-api.us-east-1.amazonaws.com/default/insertuserinfo?username="+ registrationInfo.name +"&password="+registrationInfo.password+"&email="+registrationInfo.email+";";
+            axios.post(URL).then(response => {
+                if(response.status == 200){
+                    alert("Registration Successful..")
+                    history.push("/login");
+                }
+                else{
+                    alert("User Exist!")
+                }
+            })
         }
     }
 
