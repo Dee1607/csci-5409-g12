@@ -26,13 +26,6 @@ var urlencodedParser = bodyParser.urlencoded({ extended:true,limit:1024*1024*10,
 app.use(jsonParser);
 app.use(urlencodedParser);
 
-// app.use(bodyParser.urlencoded({
-//   limit: '50mb',
-//   parameterLimit: 100000,
-//   extended: true 
-// }));
-// app.use(bodyParser.json());
-
 app.use(express.static('public'))
 app.use(cors())
 
@@ -43,50 +36,50 @@ app.use(session({
   cookie: { maxAge: 60000, token: "" }
 }))
 
-// app.post('/register', user.register);
-// app.post('/login', user.login);
 app.post('/register', user.register);
 app.post('/create', user.create);
 
-app.listen(8080, async () => {
-  try {
-    const secretsString = await retrieveSecrets();
-    await fs.writeFile(".env", secretsString);
-    dotenv.config();
-    credentials = secretsString.split('\n')
-    let userName = ''
-    let password = ''
-    let host = ''
-    let database = ''
-    credentials.forEach(row => {
-      col = row.split('=')
-      if (col[0] == 'username') {
-        userName = col[1]
-      } else if (col[0] == 'password') {
-        password = col[1]
-      } else if (col[0] == 'host') {
-        host = col[1]
-      } else if (col[0] == 'dbInstanceIdentifier') {
-        database = col[1]
-      }
-    })
-    let connection = mysql.createConnection({
-      host: host,
-      user: userName,
-      password: password,
-      database: 'users'
-    });
+// app.listen(8080, async () => {
+//   try {
+//     const secretsString = await retrieveSecrets();
+//     await fs.writeFile(".env", secretsString);
+//     dotenv.config();
+//     credentials = secretsString.split('\n')
+//     let userName = ''
+//     let password = ''
+//     let host = ''
+//     let database = ''
+//     credentials.forEach(row => {
+//       col = row.split('=')
+//       if (col[0] == 'username') {
+//         userName = col[1]
+//       } else if (col[0] == 'password') {
+//         password = col[1]
+//       } else if (col[0] == 'host') {
+//         host = col[1]
+//       } else if (col[0] == 'dbInstanceIdentifier') {
+//         database = col[1]
+//       }
+//     })
+//     let connection = mysql.createConnection({
+//       host: host,
+//       user: userName,
+//       password: password,
+//       database: 'users'
+//     });
 
-    connection.connect();
+//     connection.connect();
 
-    global.db = connection;
+//     global.db = connection;
 
-    console.log("Server running on port 8080");
-  } catch (error) {
-    //log the error and crash the app
-    console.log("Error in setting environment variables", error);
-    process.exit(-1);
-  }
-});
+//     console.log("Server running on port 8080");
+//   } catch (error) {
+//     //log the error and crash the app
+//     console.log("Error in setting environment variables", error);
+//     process.exit(-1);
+//   }
+// });
+
+app.listen(8080);
 
 console.log("Server started...")

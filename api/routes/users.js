@@ -35,5 +35,5 @@ exports.login = function (request, response) {
 
 exports.create = function (request, response) {
     let data = request.body;
-    uploadToS3.imageUpload(data)
+    uploadToS3.imageUpload(data);
 }

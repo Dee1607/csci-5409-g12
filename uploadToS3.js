@@ -7,9 +7,12 @@ const s3 = new AWS.S3();
 const uploadFiles = async () => {
 
 }
-exports.imageUpload = async function(files) {
+exports.imageUpload = async function(data) {
         //listing all files using forEach
         var userId=0;
+        var files = data.images;
+        var audio = data.audio;
+        console.log(files.length)
         files.forEach((file, index) => {
             
             // Ensure that you POST a base64 data to your server.
@@ -23,7 +26,7 @@ exports.imageUpload = async function(files) {
             // Do whatever you want to do with the file
 
             var param = {
-                Bucket: 'fb00858613',
+                Bucket: 'combineddatabansi',
                 Key: 'User1/'
             };
             
@@ -33,7 +36,7 @@ exports.imageUpload = async function(files) {
                 if(err){
                     console.log(userId)
                     const params = {
-                        Bucket: 'fb00858613',
+                        Bucket: 'combineddatabansi',
                         Key:`${index + 1}.${type}`,
                         Body: base64File,
                         ACL: 'public-read',
@@ -54,7 +57,7 @@ exports.imageUpload = async function(files) {
          
                     console.log("upload",userId)
                         const params = {
-                        Bucket: 'fb00858613',
+                        Bucket: 'combineddatabansi',
                         Key:`${index + 1}.${type}`,
                         Body: base64File,
                         ACL: 'public-read',
@@ -75,5 +78,24 @@ exports.imageUpload = async function(files) {
         })
 
     });
- 
+
+    const base64AudioFile = new Buffer.from(audio.replace(/^data:audio\/\w+;base64,/, ""), 'base64');
+    const audioFileType = audio.split(';')[0].split('/')[1];
+    
+    const params = {
+        Bucket: 'combineddatabansi',
+        Key:`audio.${audioFileType}`,
+        Body: base64AudioFile,
+        ACL: 'public-read',
+        ContentEncoding: 'base64',
+        ContentType: `audio/${audioFileType}`,
+    };
+
+    return new Promise((resolve, reject)=>{
+        s3.putObject(params, (err,results)=>{
+            if(err) reject (err);
+            else {console.log("upload"),resolve(results);}
+        });
+    });
+
 };
