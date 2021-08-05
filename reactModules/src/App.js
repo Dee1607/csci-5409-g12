@@ -9,6 +9,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import Credits from "./pages/Credits";
+import History from "./pages/History";
 
 export default function App() {
     return (
@@ -32,6 +33,11 @@ export default function App() {
                 <Route exact path="/credits">
                     <DashboardLayout>
                         <Credits />
+                    </DashboardLayout>
+                </Route>
+                <Route exact path="/history">
+                    <DashboardLayout>
+                        <History />
                     </DashboardLayout>
                 </Route>
                 <Route exact path="/">
