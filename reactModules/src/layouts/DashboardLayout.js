@@ -1,5 +1,3 @@
-/* Author: Vishal Sancheti */
-
 import React, { useEffect } from 'react';
 import DashboardNavbar from "../components/DashboardNavbar";
 import DashboardSidebar from "../components/DashboardSidebar";
@@ -12,7 +10,7 @@ const DashboardLayout =({children}) =>{
     const history = useHistory();
 
     useEffect(() => {
-        let user = localStorage.getItem('user_id')
+        let user = localStorage.getItem('user')
         if(!user){
             history.push('/login')
         }
