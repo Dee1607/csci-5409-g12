@@ -21,6 +21,7 @@ export default function Login(){
                 if(response.data.upassword == password){
                     alert("Login Successful..")
                     localStorage.setItem('user', response.data.username);
+                    localStorage.setItem('email', response.data.email)
                     history.push("/home",email);
                 }
                 else if(response.data == 'error'){
