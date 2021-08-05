@@ -14,31 +14,58 @@ export class Home extends Component {
         this.onDrop = this.imageChange.bind(this);
     }
 
-    imageChange = (image, pictureUrls) => {
+    imageChange = (images, pictureUrls) => {
+        images.forEach((image, index) => {
+            this.convertToBase64(images, index)
+        })
+    };
+
+    convertToBase64(imageArray, index) {
         let reader = new FileReader();
-        let url = reader.readAsDataURL(image[image.length - 1]);
+        reader.readAsDataURL(imageArray[index])
 
         reader.onload = (event) => {
-            this.setPictures(reader.result)
-        };
-
-    };
+            imageArray[index] = reader.result;
+            this.setPictures(imageArray)
+        }
+        
+    }
 
     audioChange = (image, pictureUrls) => {
         let reader = new FileReader();
         let url = reader.readAsDataURL(image[image.length - 1]);
-        
+
         reader.onload = (event) => {
             this.setAudio(reader.result)
         }
     }
 
     setPictures(base64Image) {
-        this.setState({ pictures: this.state.pictures.concat(base64Image) })
+        this.setState({ pictures: base64Image})
     }
 
     setAudio(base64Audio) {
-        this.setState({audio: base64Audio})
+        this.setState({ audio: base64Audio })
+    }
+
+    sendNotificationMessage = (event) => {
+        let postData = {}
+        postData['username'] = "Deep"
+        postData['email'] = "flute.bansi@gmail.com"
+        const URL = "https://ms0lqkisrd.execute-api.us-east-1.amazonaws.com/default/snsVMaker?username="+postData['username'] + "&email=" + postData['email'];
+
+        axios.post({
+            method: 'post',
+            url: URL,
+            data: postData
+        }).then((response) => {
+            console.log(response);
+            alert("Successful..")
+
+        })
+        .catch((error) => {
+            console.log(error);
+        });
     }
 
     uploadToS3 = (event) => {
@@ -47,41 +74,22 @@ export class Home extends Component {
         let postData = {}
         postData['images'] = this.state.pictures;
         postData['audio'] = this.state.audio;
+        postData['userName'] = localStorage.getItem('user');
 
-        const URL = "https://g56ejolm77.execute-api.us-east-1.amazonaws.com/default/uploadtos3?username=Deep";
+        const URL = "http://localhost:8080/create";
         axios({
             method: 'post',
             url: URL,
-            data: postData,
-            headers: { 'Content-Type': 'application/json' },
-          })
+            data: postData
+        })
             .then((response) => {
-              console.log(response);
-            //   let responseObj = response.data.output;
-               alert("Successful..")
+                console.log(response);
+                alert("Successful..")
+                this.sendNotificationMessage(event)
             })
             .catch((error) => {
-              console.log(error);
+                console.log(error);
             });
-        // axios.post(URL, JSON.stringify(postData)).then(response => {
-
-            // if(response.status == 200){
-            //     // console.log(response.data.password)
-            //         alert("Successful..")
-            //         // localStorage.setItem('user', response.data.username);
-            //         // history.push("/home",email);
-            //     // else if(response.data == 'error'){
-            //     //     alert("User does not exist!")
-            //     // }
-            //     // else{
-            //     //     alert("Invalid Password")
-            //     // }
-            // }
-        // })
-
-        // axios.post('http://localhost:8080/create', postData).then(response => {
-        //     console.log(response)
-        // })
     }
 
     render() {
@@ -96,6 +104,7 @@ export class Home extends Component {
                             <ImageUploader
                                 withIcon={true}
                                 withPreview={true}
+                                withLabel={false}
                                 buttonText='Choose images'
                                 onChange={this.imageChange}
                                 imgExtension={['.jpg', '.jpeg', '.png']}
@@ -106,9 +115,11 @@ export class Home extends Component {
                             <ImageUploader
                                 withIcon={true}
                                 withPreview={false}
+                                withLabel={false}
                                 buttonText='Choose audio'
                                 onChange={this.audioChange}
                                 imgExtension={['.mp3']}
+                                accept="audio/*"
                                 maxFileSize={5242880}
                             />
                         </div>
