@@ -27,7 +27,7 @@ export class Home extends Component {
     audioChange = (image, pictureUrls) => {
         let reader = new FileReader();
         let url = reader.readAsDataURL(image[image.length - 1]);
-        
+
         reader.onload = (event) => {
             this.setAudio(reader.result)
         }
@@ -38,7 +38,7 @@ export class Home extends Component {
     }
 
     setAudio(base64Audio) {
-        this.setState({audio: base64Audio})
+        this.setState({ audio: base64Audio })
     }
 
     uploadToS3 = (event) => {
@@ -47,41 +47,23 @@ export class Home extends Component {
         let postData = {}
         postData['images'] = this.state.pictures;
         postData['audio'] = this.state.audio;
+        postData['userName'] = localStorage.getItem('user');
 
-        const URL = "https://g56ejolm77.execute-api.us-east-1.amazonaws.com/default/uploadtos3?username=Deep";
+        const URL = "https://g56ejolm77.execute-api.us-east-1.amazonaws.com/default/uploadtos3";
         axios({
             method: 'post',
             url: URL,
             data: postData,
-            headers: { 'Content-Type': 'application/json' },
-          })
+            decompress : true,
+            headers: { 'Content-Type': 'application/json' }
+        })
             .then((response) => {
-              console.log(response);
-            //   let responseObj = response.data.output;
-               alert("Successful..")
+                console.log(response);
+                alert("Successful..")
             })
             .catch((error) => {
-              console.log(error);
+                console.log(error);
             });
-        // axios.post(URL, JSON.stringify(postData)).then(response => {
-
-            // if(response.status == 200){
-            //     // console.log(response.data.password)
-            //         alert("Successful..")
-            //         // localStorage.setItem('user', response.data.username);
-            //         // history.push("/home",email);
-            //     // else if(response.data == 'error'){
-            //     //     alert("User does not exist!")
-            //     // }
-            //     // else{
-            //     //     alert("Invalid Password")
-            //     // }
-            // }
-        // })
-
-        // axios.post('http://localhost:8080/create', postData).then(response => {
-        //     console.log(response)
-        // })
     }
 
     render() {
@@ -96,6 +78,7 @@ export class Home extends Component {
                             <ImageUploader
                                 withIcon={true}
                                 withPreview={true}
+                                withLabel={false}
                                 buttonText='Choose images'
                                 onChange={this.imageChange}
                                 imgExtension={['.jpg', '.jpeg', '.png']}
@@ -106,6 +89,7 @@ export class Home extends Component {
                             <ImageUploader
                                 withIcon={true}
                                 withPreview={false}
+                                withLabel={false}
                                 buttonText='Choose audio'
                                 onChange={this.audioChange}
                                 imgExtension={['.mp3']}

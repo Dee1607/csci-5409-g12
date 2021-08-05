@@ -1,5 +1,3 @@
-/* Author: Vishal Sancheti */
-
 import '../styles/style.scss';
 import React, { useState } from 'react';
 import {Collapse} from 'react-bootstrap';

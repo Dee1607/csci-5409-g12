@@ -1,5 +1,3 @@
-/* Author: Vishal Sancheti */
-
 import React from 'react';
 import AppNavbar from "../components/AppNavbar";
 import {Container} from "react-bootstrap";
