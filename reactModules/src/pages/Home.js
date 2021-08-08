@@ -115,7 +115,7 @@ export class Home extends Component {
         postData['audio'] = this.state.audio;
         postData['userName'] = localStorage.getItem('user');
 
-        const URL = "http://localhost:8080/create";
+        const URL = "/create";
         axios({
             method: 'post',
             url: URL,
