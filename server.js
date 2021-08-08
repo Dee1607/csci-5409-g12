@@ -38,6 +38,7 @@ app.use(session({
 
 app.post('/register', user.register);
 app.post('/create', user.create);
+app.post('/sendNotification', user.sendNotification);
 
 // app.listen(8080, async () => {
 //   try {

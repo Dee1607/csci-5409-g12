@@ -28,7 +28,7 @@ export class Home extends Component {
             imageArray[index] = reader.result;
             this.setPictures(imageArray)
         }
-        
+
     }
 
     audioChange = (image, pictureUrls) => {
@@ -41,7 +41,7 @@ export class Home extends Component {
     }
 
     setPictures(base64Image) {
-        this.setState({ pictures: base64Image})
+        this.setState({ pictures: base64Image })
     }
 
     setAudio(base64Audio) {
@@ -49,28 +49,19 @@ export class Home extends Component {
     }
 
     sendNotificationMessage = (event) => {
+        event.preventDefault()
         let postData = {}
         postData['username'] = "Deep"
         postData['email'] = "flute.bansi@gmail.com"
-        const URL = "https://ms0lqkisrd.execute-api.us-east-1.amazonaws.com/default/snsVMaker?username="+postData['username'] + "&email=" + postData['email'];
+        let httpURL = "https://ms0lqkisrd.execute-api.us-east-1.amazonaws.com/default/snsVMaker?username=" + postData['username'] + "&email=" + postData['email'];
 
-        axios.post({
-            method: 'post',
-            url: URL,
-            data: postData
-        }).then((response) => {
-            console.log(response);
-            alert("Successful..")
-
+        axios.post(httpURL).then(response => {
+            console.log(response)
         })
-        .catch((error) => {
-            console.log(error);
-        });
     }
 
     uploadToS3 = (event) => {
         event.preventDefault();
-        console.log(this.state.pictures)
         let postData = {}
         postData['images'] = this.state.pictures;
         postData['audio'] = this.state.audio;
@@ -100,32 +91,37 @@ export class Home extends Component {
                 </div>
                 <div className="page-content-container">
                     <div className="page-content">
-                        <div className="upload-image-container">
-                            <ImageUploader
-                                withIcon={true}
-                                withPreview={true}
-                                withLabel={false}
-                                buttonText='Choose images'
-                                onChange={this.imageChange}
-                                imgExtension={['.jpg', '.jpeg', '.png']}
-                                maxFileSize={5242880}
-                            />
+                        <div className="upload-container">
+                            <div className="upload-image-container">
+                                <ImageUploader
+                                    withIcon={true}
+                                    withPreview={true}
+                                    withLabel={false}
+                                    buttonText='Choose images'
+                                    onChange={this.imageChange}
+                                    imgExtension={['.jpg', '.jpeg', '.png']}
+                                    maxFileSize={5242880}
+                                />
+                            </div>
+                            <div className="upload-audio-container">
+                                <ImageUploader
+                                    withIcon={true}
+                                    withPreview={false}
+                                    withLabel={false}
+                                    buttonText='Choose audio'
+                                    onChange={this.audioChange}
+                                    imgExtension={['.mp3']}
+                                    accept="audio/*"
+                                    maxFileSize={5242880}
+                                />
+                            </div>
                         </div>
-                        <div className="upload-audio-container">
-                            <ImageUploader
-                                withIcon={true}
-                                withPreview={false}
-                                withLabel={false}
-                                buttonText='Choose audio'
-                                onChange={this.audioChange}
-                                imgExtension={['.mp3']}
-                                accept="audio/*"
-                                maxFileSize={5242880}
-                            />
+                        <div className="button-container">
+                            <Button onClick={this.uploadToS3}>Upload</Button>
                         </div>
                     </div>
                 </div>
-                <Button onClick={this.uploadToS3}>Upload to S3</Button>
+
             </div>
         )
     }

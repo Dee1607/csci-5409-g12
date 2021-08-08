@@ -6,12 +6,13 @@ exports.uploadFiles = async function(data) {
     var audio = data.audio;
     var username = data.userName;
     var promises = []
+    promises.push(audioUpload(audio));
     files.forEach((file, index) => {
         promises.push(imageUpload(file, index))
     });
-    promises.push(audioUpload(audio));
+    
     return Promise.all(promises).then(response => {
-        return response
+        return response;
     })
 }
 
@@ -28,14 +29,17 @@ imageUpload = (file, index) => {
     };
 
     console.log("Image" + index)
-    return s3.putObject(params, (error, response) => {
-        if (error) {
-            return Promise.reject(error)
-        } else if (response) {
-            console.log("Call Back for image")
-            return Promise.resolve(response)
-        }
-    }).promise();
+
+    return new Promise((resolve, reject) => {
+        s3.putObject(params, (error, response) => {
+            if (error) {
+                return reject(error)
+            } else if (response) {
+                console.log("Call Back for image" + index)
+                return resolve(response)
+            }
+        })
+    }) 
 }
 
 audioUpload = (audio) => {
@@ -53,12 +57,14 @@ audioUpload = (audio) => {
 
     console.log("Audio")
 
-    return s3.putObject(params, (error, response) => {
-        if (error) {
-            return Promise.reject(error)
-        } else if (response) {
-            console.log("Call Back for audio")
-            return Promise.resolve(response)
-        }
-    }).promise();
+    return new Promise((resolve, reject) => {
+        s3.putObject(params, (error, response) => {
+            if (error) {
+                return reject(error)
+            } else if (response) {
+                console.log("Call Back for audio")
+                return resolve(response)
+            }
+        })
+    }) 
 }

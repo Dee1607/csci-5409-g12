@@ -1,4 +1,5 @@
 const uploadToS3 = require('../../uploadToS3')
+const axios = require("axios")
 const fs = require('fs')
 
 exports.register = function (request, response) {
@@ -35,5 +36,29 @@ exports.login = function (request, response) {
 
 exports.create = function (request, response) {
     let data = request.body;
-    uploadToS3.uploadFiles(data);
+    uploadToS3.uploadFiles(data).then(result => {
+        return response.status(200).json({result: result})
+    });
+}
+
+
+exports.sendNotification = function(request, response) {
+    let data = request.body;
+    let postData = {}
+    postData['username'] = "Deep"
+    postData['email'] = "flute.bansi@gmail.com"
+    let httpURL = "https://ms0lqkisrd.execute-api.us-east-1.amazonaws.com/default/snsVMaker";
+    axios.post({
+        method: 'post',
+        url: httpURL,
+        data: postData
+    }).then((response) => {
+        console.log(response);
+        alert("Successful..")
+
+    })
+        .catch((error) => {
+            console.log(error);
+        });
+
 }
