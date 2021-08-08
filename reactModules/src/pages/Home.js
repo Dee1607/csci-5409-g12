@@ -51,8 +51,8 @@ export class Home extends Component {
     sendNotificationMessage = (event) => {
         event.preventDefault()
         let postData = {}
-        postData['username'] = "Deep"
-        postData['email'] = "flute.bansi@gmail.com"
+        postData['username'] = localStorage.getItem('user')
+        postData['email'] = localStorage.getItem('email')
         let httpURL = "https://ms0lqkisrd.execute-api.us-east-1.amazonaws.com/default/snsVMaker?username=" + postData['username'] + "&email=" + postData['email'];
 
         axios.post(httpURL).then(response => {
